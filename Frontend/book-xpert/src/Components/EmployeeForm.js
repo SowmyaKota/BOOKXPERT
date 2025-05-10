@@ -18,7 +18,6 @@ const EmployeeForm = ({onSave, employeeToEdit, onClear}) => {
     const handleSubmit=e=>{
         e.preventDefault()
         const newEmployee={name, designation, dob, salary, gender, state, age}
-        onmo
     }
 
     const handleClear=()=>{
