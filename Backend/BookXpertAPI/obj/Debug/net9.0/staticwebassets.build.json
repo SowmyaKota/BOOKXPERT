@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "JHkNheBTHdLsThhbPd9hgrK+DpYTQvORxzzmsfukoR4=",
+  "Source": "BookXpertAPI",
+  "BasePath": "_content/BookXpertAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
