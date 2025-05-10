@@ -20,6 +20,7 @@ C:\Users\SAI CHARAN\OneDrive\Documents\BOOKXPERT\Backend\BookXpertAPI\obj\Debug\
 C:\Users\SAI CHARAN\OneDrive\Documents\BOOKXPERT\Backend\BookXpertAPI\obj\Debug\net9.0\BookXpertAPI.csproj.CoreCompileInputs.cache
 C:\Users\SAI CHARAN\OneDrive\Documents\BOOKXPERT\Backend\BookXpertAPI\obj\Debug\net9.0\BookXpertAPI.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\SAI CHARAN\OneDrive\Documents\BOOKXPERT\Backend\BookXpertAPI\obj\Debug\net9.0\BookXpertAPI.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\SAI CHARAN\OneDrive\Documents\BOOKXPERT\Backend\BookXpertAPI\obj\Debug\net9.0\BookXpertAPI.sourcelink.json
 C:\Users\SAI CHARAN\OneDrive\Documents\BOOKXPERT\Backend\BookXpertAPI\obj\Debug\net9.0\scopedcss\bundle\BookXpertAPI.styles.css
 C:\Users\SAI CHARAN\OneDrive\Documents\BOOKXPERT\Backend\BookXpertAPI\obj\Debug\net9.0\staticwebassets.build.json
 C:\Users\SAI CHARAN\OneDrive\Documents\BOOKXPERT\Backend\BookXpertAPI\obj\Debug\net9.0\staticwebassets.development.json
