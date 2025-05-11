@@ -1,27 +1,37 @@
 using Microsoft.EntityFrameworkCore;
 using BookXpertAPI.Data;
+using BookXpertAPI.Repository;
+using BookXpertAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// MySQL connection string
-var connectionString = "server=localhost;port=3306;user=root;password=your_password;database=BookXpertDB";
 
-// Register AppDbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+    )
+);
 
+
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+
+
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddControllers(); // For future API use
-
 var app = builder.Build();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+app.UseAuthorization();
 
-app.UseSwagger();
-app.UseSwaggerUI();
-
-app.UseHttpsRedirection();
-app.MapControllers(); // In case you're adding REST endpoints
-app.MapGet("/", () => "BookXpert API running!");
+app.MapControllers();
+app.MapGet("/", () => "BookXpert API is running"); 
 
 app.Run();
+
