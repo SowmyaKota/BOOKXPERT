@@ -31,6 +31,8 @@ const EmployeeForm = ({onSave, employeeToEdit, onClear}) => {
         onClear()
     }
 
+   
+
   return (
         <form onSubmit={handleSubmit}>
             <div>
@@ -77,7 +79,7 @@ const EmployeeForm = ({onSave, employeeToEdit, onClear}) => {
                  <option value="Warangal">Warangal</option>
                  </select>
             </div>
-            <button type='submit'>Save</button>
+            <button type='submit' >Save</button>
             <button type='button' onClick={handleClear}>Clear</button>
         </form>
   )

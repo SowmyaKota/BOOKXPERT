@@ -20,7 +20,8 @@ const EmployeeTable = ({employees, onEdit, onDelete, onDeleteMultiple, onSelectA
             </tr>
         </thead>
         <tbody>
-            {employees.map((employee, index)=>{
+            {(employees || []).map((employee, index)=>{
+                return (
                 <tr key={index}>
                     <td>{employee.name}</td>
                     <td>{employee.designation}</td>
@@ -33,6 +34,7 @@ const EmployeeTable = ({employees, onEdit, onDelete, onDeleteMultiple, onSelectA
                         <button onClick={()=>onDelete(index)}>Delete</button>
                     </td>
                 </tr>
+                )
             })}
         </tbody>
       </table>
