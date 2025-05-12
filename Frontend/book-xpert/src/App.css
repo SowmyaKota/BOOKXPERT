@@ -1,0 +1,222 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  div {
+    margin-bottom: 20px;
+  }
+  
+  form {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  form h2 {
+    margin-bottom: 15px;
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  select {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0 20px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  form button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  form button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  form button[type="button"] {
+    background-color: #6c757d;
+    color: white;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+  }
+  
+  table thead {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  table th,
+  table td {
+    padding: 12px;
+    border: 1px solid #dee2e6;
+    text-align: left;
+  }
+  
+  table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .salary {
+    white-space: nowrap;
+  }
+
+  button {
+    padding: 6px 12px;
+    margin: 4px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    opacity: 0.9;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+ 
+  button.edit {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  button.delete {
+    background-color: #dc3545;
+    color: white;
+  }
+ 
+  .chart-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .chart-selected {
+    padding: 8px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+  }
+  
+  .delete-dialog {
+    background-color: #fff;
+    padding: 20px;
+    border: 2px solid #dc3545;
+    border-radius: 8px;
+    margin-top: 20px;
+    color: #dc3545;
+  }
+  
+  button.active-page {
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    table, thead, tbody, th, td, tr {
+      display: block;
+    }
+  
+    table thead {
+      display: none;
+    }
+  
+    table td {
+      position: relative;
+      padding-left: 50%;
+      text-align: right;
+    }
+  
+    table td::before {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      white-space: nowrap;
+      font-weight: bold;
+    }
+  
+    table td:nth-of-type(1)::before { content: "Select"; }
+    table td:nth-of-type(2)::before { content: "Name"; }
+    table td:nth-of-type(3)::before { content: "Designation"; }
+    table td:nth-of-type(4)::before { content: "Salary"; }
+    table td:nth-of-type(5)::before { content: "Actions"; }
+  }
+
+  .employee-form-table {
+    max-width: 600px;
+    margin: 30px auto;
+    background-color: #fefefe;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .employee-form-table h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .employee-form-table table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .employee-form-table td {
+    padding: 10px;
+    vertical-align: middle;
+  }
+  
+  .employee-form-table label {
+    font-weight: 600;
+    color: #444;
+  }
+  
+  .employee-form-table input[type="text"],
+  .employee-form-table input[type="number"],
+  .employee-form-table input[type="date"] {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  
+  .employee-form-table button {
+    margin: 10px 10px 0 0;
+    padding: 10px 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    background-color: #3498db;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .employee-form-table button:hover {
+    background-color: #2980b9;
+  }
+
+

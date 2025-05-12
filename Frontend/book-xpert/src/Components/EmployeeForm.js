@@ -1,88 +1,172 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
+import { addEmployee, updateEmployee } from './EmployeeService';
 
-const EmployeeForm = ({onSave, employeeToEdit, onClear}) => {
-    const [name, setName]=useState(employeeToEdit?.name || "")
-    const [designation, setDesignation]=useState(employeeToEdit?.designation || "")
-    const [dob, setDob]=useState(employeeToEdit?.dob || "")
-    const [salary, setSalary]=useState(employeeToEdit?.salary || "")
-    const [gender, setGender]=useState(employeeToEdit?.gender || "")
-    const [age, setage]=useState(employeeToEdit?.age || "" )
-    const [state, setState]=useState(employeeToEdit?.state || "")
+const EmployeeForm = ({ employeeToEdit, onSave, employees = [] }) => {
+  const [employee, setEmployee] = useState({
+    id: '',
+    name: '',
+    designation: '',
+    salary: '',
+    gender: '',
+    state: '',
+    dateOfBirth: '',
+    age: '',
+    doj: ''
+  });
 
-    const handleAgeCalculation=e=>{
-        const dateOfBirth=new Date(e.target.value)
-        const currentAge=new Date().getFullYear()-dateOfBirth.getFullYear()
-        setage(currentAge)
+  useEffect(() => {
+    if (employeeToEdit) {
+      setEmployee(employeeToEdit); 
+    }
+  }, [employeeToEdit]);
+
+  useEffect(() => {
+    if (employee.dateOfBirth) {
+      const today = new Date();
+      const birthDate = new Date(employee.dateOfBirth);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDifference = today.getMonth() - birthDate.getMonth();
+      if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+        age--; 
+      }
+      setEmployee(prev => ({ ...prev, age: age }));
+    }
+  }, [employee.dateOfBirth]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEmployee(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formattedEmployee = {
+      ...employee,
+      salary: Number(employee.salary), 
+      age: Number(employee.age),
+      dateOfBirth: employee.dateOfBirth || null,
+      doj: employee.doj || null
+    };
+
+    const isDuplicate = employees && employees.some(emp =>
+      (emp.id === formattedEmployee.id || emp.name.toLowerCase() === formattedEmployee.name.toLowerCase()) &&
+      emp.id !== formattedEmployee.id
+    );
+    
+    if (isDuplicate) {
+      alert("Duplicate employee ID or name found!");
+      return;
     }
 
-    const handleSubmit=e=>{
-        e.preventDefault()
-        const newEmployee={name, designation, dob, salary, gender, state, age}
+    if (formattedEmployee.id) {
+      updateEmployee(formattedEmployee.id, formattedEmployee)
+        .then(updatedEmployee => {
+          onSave(updatedEmployee); 
+        })
+        .catch((error) => {
+          console.error("Error updating employee:", error.response?.data?.errors || error.message);
+        });
+    } else {
+      const { id, ...empWithoutId } = formattedEmployee; 
+    
+      addEmployee(empWithoutId)
+        .then(onSave)
+        .catch((error) => {
+          console.error("Error adding employee:", error.response?.data || error.message);
+        });
     }
-
-    const handleClear=()=>{
-        setName('')
-        setDesignation('')
-        setDob('')
-        setGender('Male')
-        setSalary('')
-        setState('')
-        setage('')
-        onClear()
-    }
-
-   
+  };
+  
+  const handleClear = () => {
+    setEmployee({
+      id: '',
+      name: '',
+      designation: '',
+      salary: '',
+      gender: '',
+      state: '',
+      dateOfBirth: '',
+      age: '',
+      doj: ''
+    });
+  };
 
   return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label>Name: </label>
-                <input type='text' value={name}
-                 onChange={e=>setName(e.target.value)} required/>
-            </div>
-            <div>
-                <label>Designation: </label>
-                <input type='text' value={designation}
-                 onChange={e=>setDesignation(e.target.value)} required/>
-            </div>
-            <div>
-                <label>Date of Birth: </label>
-                <input type='text' value={dob}
-                 onChange={e=>{
-                    setDob(e.target.value)
-                 handleAgeCalculation(e)
-                 }} required/>
-            </div>
-            <div>
-                <label>Age: </label>
-                <input type='text' value={age} disabled />
-            </div>
-            <div>
-                <label>Salary: </label>
-                <input type='text' value={salary}
-                 onChange={e=>setSalary(e.target.value)} required/>
-            </div>
-            <div>
-                <label>Gender: </label>
-                <select value={gender}
-                 onChange={e=>setGender(e.target.value)} required>
-                 <option value="Male">Male</option>
-                 <option value="Female">Female</option>
-                 </select>
-            </div>
-            <div>
-            <label>State: </label>
-                <select value={state}
-                 onChange={e=>setState(e.target.value)} required>
-                 <option value="Telangana">Telangana</option>
-                 <option value="Andhra Pradesh">Andhra Pradesh</option>
-                 <option value="Warangal">Warangal</option>
-                 </select>
-            </div>
-            <button type='submit' >Save</button>
-            <button type='button' onClick={handleClear}>Clear</button>
-        </form>
-  )
-}
+    <div className='employee-form-table'>
+      <h2>{employee.id ? 'Edit Employee' : 'Add Employee'}</h2>
+      <form onSubmit={handleSubmit}>
+      <table>
+      <tbody>
+        <tr>
+          <td><label>ID:</label></td>
+          <td>
+            <input type="text" name="id" value={employee.id || ''} onChange={handleChange} disabled={employee.id} />
+          </td>
+        </tr>
+        <tr>
+          <td><label>Name:</label></td>
+          <td>
+            <input type="text" name="name" value={employee.name} onChange={handleChange} required />
+          </td>
+        </tr>
+        <tr>
+          <td><label>Designation:</label></td>
+          <td>
+            <input type="text" name="designation" value={employee.designation} onChange={handleChange} required />
+          </td>
+        </tr>
+        <tr>
+          <td><label>Date of Joining:</label></td>
+          <td>
+            <input type="date" name="doj" value={employee.doj} onChange={handleChange} />
+          </td>
+        </tr>
+        <tr>
+          <td><label>Salary:</label></td>
+          <td>
+            <input type="number" name="salary" value={employee.salary} onChange={handleChange} required />
+          </td>
+        </tr>
+        <tr>
+          <td><label>Gender:</label></td>
+          <td>
+            <select value={employee.gender} onChange={handleChange} name="gender">
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td><label>State:</label></td>
+          <td>
+            <input type="text" name="state" value={employee.state} onChange={handleChange} required />
+          </td>
+        </tr>
+        <tr>
+          <td><label>Date of Birth:</label></td>
+          <td>
+            <input type="date" name="dateOfBirth" value={employee.dateOfBirth} onChange={handleChange} required />
+          </td>
+        </tr>
+        <tr>
+          <td><label>Age:</label></td>
+          <td>
+            <input type="number" name="age" value={employee.age} onChange={handleChange} readOnly />
+          </td>
+        </tr>
+        <tr>
+          <td colSpan="2" style={{ textAlign: "center" }}>
+            <button type="submit">{employee.id ? 'Update' : 'Add'} Employee</button>
+            <button type="button" onClick={handleClear}>Clear Form</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+      </form>
+    </div>
+  );
+};
 
-export default EmployeeForm
+export default EmployeeForm;

@@ -1,92 +1,32 @@
-
-import { useState } from 'react';
-import './App.css';
-import ChartComponent from './Components/ChartComponent';
+import React, { useState, useEffect } from 'react';
 import EmployeeForm from './Components/EmployeeForm';
-import EmployeeTable from './Components/EmployeeTable';
+import EmployeeList from './Components/EmployeeList';
+import { getEmployees } from './Components/EmployeeService';
 
-function App() {
-  const [formData, setFormData]=useState({
-        name: '',
-        designation: '',
-        dob: '',
-        age: '',
-        salary: '',
-        gender: '',
-        state: ''
-    })
+const App = () => {
+  const [employees, setEmployees] = useState([]);
+  const [employeeToEdit, setEmployeeToEdit] = useState(null); 
+  
+  useEffect(() => {
+    getEmployees().then(setEmployees).catch(console.error);
+  }, []);
 
-  const [employees, setEmployees]=useState([])
-  const [selectedEmployees, setSelectedEmployees]=useState([])
-  const [employeeToEdit, setEmployeeToEdit]=useState(null)
-
-  const handleSave=()=>{
-    if(!formData.name || !formData.salary){
-      alert("Please fill all required fields")
-      return
-    }
-    setEmployees(prev=>[...prev, formData])
-    alert("saved Employee data successfully!")
-    
-  }
-
- 
-
-  const handleClear=()=>{
-    setFormData({
-      name: '',
-      designation: '',
-      dob: '',
-      age: '',
-      salary: '',
-      gender: '',
-      state: ''
-    })
-    setEmployeeToEdit(null)
-  }
-
-  const handleEdit=employee=>{
-    setEmployeeToEdit(employee)
-  }
-
-  const handleDelete=(indexToDelete)=>{
-    setEmployees(prev=>prev.filter((_, i)=> i!==indexToDelete))
-  }
-
-  const handleDeleteMultiple=()=>{
-    setEmployees(employees.filter((_, i)=> !selectedEmployees.includes(i)))
-    setSelectedEmployees([])
-  }
-
-  const handleSelectAll = () => {
-    if (selectedEmployees.length === employees.length) {
-      setSelectedEmployees([]);
-    } else {
-      setSelectedEmployees(employees.map((_, index) => index));
-    }
+  const handleSave = (updatedEmployee) => {
+    console.log("Employee Updated", updatedEmployee);
+    setEmployeeToEdit(null);
   };
 
-  const handleSelectEmployee = (index) => {
-    if (selectedEmployees.includes(index)) {
-      setSelectedEmployees(selectedEmployees.filter(i => i !== index));
-    } else {
-      setSelectedEmployees([...selectedEmployees, index]);
-    }
+  const handleEdit = (employee) => {
+    setEmployeeToEdit(employee); 
   };
 
   return (
     <div>
-      <EmployeeForm formData={formData} setFormData={setFormData}
-      onSave={handleSave} employeeToEdit={employeeToEdit} onClear={handleClear}/>
-      <EmployeeTable
-      employees={employees}
-      onEdit={handleEdit}
-      onDelete={handleDelete}
-      onDeleteMultiple={handleDeleteMultiple}
-      onSelectAll={handleSelectAll}/>
-      <ChartComponent data={employees}/>
+      <EmployeeForm employeeToEdit={employeeToEdit} onSave={handleSave} 
+      employees={employees}/>
+      <EmployeeList onEdit={handleEdit} />
     </div>
   );
-}
+};
 
 export default App;

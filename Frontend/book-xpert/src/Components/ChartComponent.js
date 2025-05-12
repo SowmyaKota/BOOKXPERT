@@ -7,7 +7,7 @@ import {
   Legend,
 } from 'chart.js';
 
-// Register required elements
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const ChartComponent = ({ data }) => {

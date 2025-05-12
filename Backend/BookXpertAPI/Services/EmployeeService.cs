@@ -14,29 +14,29 @@ namespace BookXpertAPI.Services
             _employeeRepository = employeeRepository;
         }
 
-        public async Task<IEnumerable<Employee>> GetAllEmployeesAsync()
+        public async Task<IEnumerable<Employee>> GetAllAsync()
         {
             return await _employeeRepository.GetAllAsync();
         }
 
-        public async Task<Employee> GetEmployeeByIdAsync(int id)
+        public async Task<Employee> GetByIdAsync(int id)
         {
             return await _employeeRepository.GetByIdAsync(id);
         }
 
-        public async Task<Employee> AddEmployeeAsync(Employee employee)
+        public async Task<Employee> AddAsync(Employee employee)
         {
             return await _employeeRepository.AddAsync(employee);
         }
 
-        public async Task<Employee> UpdateEmployeeAsync(Employee employee)
+        public async Task<Employee> UpdateAsync(Employee employee)
         {
             return await _employeeRepository.UpdateAsync(employee);
         }
 
-        public async Task<bool> DeleteEmployeeAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            return await _employeeRepository.DeleteAsync(id); 
+            return await _employeeRepository.DeleteAsync(id);
         }
 
         public async Task<bool> IsDuplicateAsync(string employeeName)

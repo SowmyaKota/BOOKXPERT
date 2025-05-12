@@ -1,6 +1,7 @@
+using BookXpertAPI.Models;
+using BookXpertAPI.Services;
 using Microsoft.AspNetCore.Mvc;
-using BookXpertAPI.Models;  // Employee model
-using BookXpertAPI.Services; // IEmployeeService
+using System.Threading.Tasks;
 
 namespace BookXpertAPI.Controllers
 {
@@ -16,51 +17,49 @@ namespace BookXpertAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetEmployees()
+        public async Task<IActionResult> GetAll()
         {
-            var employees = await _employeeService.GetAllEmployeesAsync();
+            var employees = await _employeeService.GetAllAsync();
             return Ok(employees);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateEmployee(Employee employee)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            if (employee == null)
-            {
-                return BadRequest();
-            }
+            var employee = await _employeeService.GetByIdAsync(id);
+            if (employee == null) return NotFound();
+            return Ok(employee);
+        }
 
-            await _employeeService.AddEmployeeAsync(employee);
-            return CreatedAtAction(nameof(GetEmployees), new { id = employee.Id }, employee);
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] Employee employee)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var isDuplicate = await _employeeService.IsDuplicateAsync(employee.Name);
+            if (isDuplicate)
+                return BadRequest("Employee with this name already exists.");
+
+            var created = await _employeeService.AddAsync(employee);
+            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEmployee(int id, Employee employee)
+        public async Task<IActionResult> Update(int id, [FromBody] Employee employee)
         {
-            if (employee == null || id != employee.Id)
-            {
-                return BadRequest();
-            }
+            if (id != employee.Id)
+                return BadRequest("ID mismatch");
 
-            var updatedEmployee = await _employeeService.UpdateEmployeeAsync(employee);
-            if (updatedEmployee == null)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
+            var updated = await _employeeService.UpdateAsync(employee);
+            return Ok(updated);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEmployee(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var employee = await _employeeService.GetEmployeeByIdAsync(id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            await _employeeService.DeleteEmployeeAsync(id);
+            var deleted = await _employeeService.DeleteAsync(id);
+            if (!deleted) return NotFound();
             return NoContent();
         }
     }

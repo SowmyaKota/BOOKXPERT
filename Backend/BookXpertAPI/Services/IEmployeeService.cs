@@ -6,11 +6,11 @@ namespace BookXpertAPI.Services
 {
     public interface IEmployeeService
     {
-        Task<IEnumerable<Employee>> GetAllEmployeesAsync();
-        Task<Employee> GetEmployeeByIdAsync(int id);
-        Task<Employee> AddEmployeeAsync(Employee employee);
-        Task<Employee> UpdateEmployeeAsync(Employee employee);
-        Task<bool> DeleteEmployeeAsync(int id);
+        Task<IEnumerable<Employee>> GetAllAsync();
+        Task<Employee> GetByIdAsync(int id);
+        Task<Employee> AddAsync(Employee employee);
+        Task<Employee> UpdateAsync(Employee employee);
+        Task<bool> DeleteAsync(int id);
         Task<bool> IsDuplicateAsync(string employeeName);
     }
 }
