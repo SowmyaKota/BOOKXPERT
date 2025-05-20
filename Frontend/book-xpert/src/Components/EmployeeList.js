@@ -135,7 +135,7 @@ const EmployeeList = ({ onEdit }) => {
 
   doc.save("employee_list.pdf");
   };
-  
+
   
 
   const totalSalary = employees.reduce((sum, emp) => sum + Number(emp.salary), 0);
@@ -167,7 +167,7 @@ const EmployeeList = ({ onEdit }) => {
             <th onClick={() => handleSort("id")}>ID</th>
             <th onClick={() => handleSort("name")}>Name</th>
             <th onClick={() => handleSort("designation")}>Designation</th>
-            <th>DOJ</th>
+            <th >DOJ </th>
             <th onClick={() => handleSort("salary")}>Salary</th>
             <th>Gender</th>
             <th>State</th>
@@ -185,7 +185,7 @@ const EmployeeList = ({ onEdit }) => {
               }}>
                 {emp.name}</span></td>
               <td>{emp.designation}</td>
-              <td>{new Date(emp.doj).toLocaleDateString()}</td>
+              <td >{new Date(emp.doj).toLocaleDateString()}</td>
               <td>{emp.salary}</td>
               <td>{emp.gender}</td>
               <td>{emp.state}</td>

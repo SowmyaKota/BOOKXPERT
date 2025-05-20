@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { addEmployee, updateEmployee } from './EmployeeService';
 
 const EmployeeForm = ({ employeeToEdit, onSave, employees = [] }) => {
+  const getTodayDate=()=> new Date().toISOString().split('T')[0]
+  
+
   const [employee, setEmployee] = useState({
     id: '',
     name: '',
@@ -11,7 +14,7 @@ const EmployeeForm = ({ employeeToEdit, onSave, employees = [] }) => {
     state: '',
     dateOfBirth: '',
     age: '',
-    doj: ''
+    doj: getTodayDate(),
   });
 
   useEffect(() => {
@@ -20,6 +23,16 @@ const EmployeeForm = ({ employeeToEdit, onSave, employees = [] }) => {
     }
   }, [employeeToEdit]);
 
+  useEffect(()=>{
+    if(employeeToEdit){
+      setEmployee({
+        ...employeeToEdit,
+        doj:employeeToEdit.doj || getTodayDate()
+      })
+    }
+  },[employeeToEdit])
+
+  
   useEffect(() => {
     if (employee.dateOfBirth) {
       const today = new Date();
@@ -46,7 +59,7 @@ const EmployeeForm = ({ employeeToEdit, onSave, employees = [] }) => {
       salary: Number(employee.salary), 
       age: Number(employee.age),
       dateOfBirth: employee.dateOfBirth || null,
-      doj: employee.doj || null
+      doj: employee.doj || getTodayDate(),
     };
 
     const isDuplicate = employees && employees.some(emp =>

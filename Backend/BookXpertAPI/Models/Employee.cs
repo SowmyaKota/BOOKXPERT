@@ -11,8 +11,11 @@ namespace BookXpertAPI.Models
         public decimal Salary { get; set; }[Required]
         public string? Gender { get; set; }[Required]
         public string? State { get; set; }
-        public DateTime DateOfBirth { get; set; }
-        public DateTime Doj { get; set; }  // Date of Joining
+        [DataType(DataType.Date)]
+    public DateTime DOJ { get; set; } = DateTime.Today;
+
+    [DataType(DataType.Date)]
+    public DateTime DOB { get; set; } = DateTime.Today;
         public int Age { get; set; }
     }
 

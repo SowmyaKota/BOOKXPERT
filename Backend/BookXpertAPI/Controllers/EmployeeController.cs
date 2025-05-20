@@ -2,6 +2,7 @@ using BookXpertAPI.Models;
 using BookXpertAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.Reporting.NETCore;
 
 namespace BookXpertAPI.Controllers
 {
@@ -63,4 +64,20 @@ namespace BookXpertAPI.Controllers
             return NoContent();
         }
     }
+}
+
+
+[HttpGet("report")]
+public async Task<IActionResult> GetReport()
+{
+    var employees = await _employeeService.GetAllAsync();
+
+    var localReport = new LocalReport();
+    localReport.ReportPath = Path.Combine(Directory.GetCurrentDirectory(), "Reports", "EmployeeReport.rdlc");
+
+    localReport.DataSources.Add(new ReportDataSource("EmployeeDataSet", employees));
+
+    byte[] reportBytes = localReport.Render("PDF");
+
+    return File(reportBytes, "application/pdf", "EmployeeReport.pdf");
 }
