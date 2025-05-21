@@ -157,8 +157,10 @@ const EmployeeList = ({ onEdit }) => {
         <button onClick={handleBatchDelete}>Delete Selected</button>
         <button onClick={() => setShowChartModal(true)}>Show Chart</button>
         <button onClick={handleDownloadPDF}>Download PDF</button>
-        <button onClick={() => setShowReportModal(true)}>View Report</button>
-      </div>
+        <button onClick={() => window.open('http://localhost:5073/api/Employee/report', '_blank')}>
+  View Report
+</button>
+</div>
 
       <table>
         <thead>
@@ -218,12 +220,18 @@ const EmployeeList = ({ onEdit }) => {
           <EmployeeChart employees={employees} />
         </Modal>
       )}
+{showReportModal && (
+  <Modal title="Employee Report" onClose={() => setShowReportModal(false)}>
+    <iframe
+      src="http://localhost:5073/api/Employee/report"
+      width="100%"
+      height="600px"
+      title="Employee Report"
+      style={{ border: "none" }}
+    />
+  </Modal>
+)}
 
-      {showReportModal && (
-        <Modal title="Employee Report" onClose={() => setShowReportModal(false)}>
-          <iframe src="/sample-report.pdf" width="100%" height="500px" title="Employee Report" />
-        </Modal>
-      )}
 
       {showDeleteDialog && (
         <Modal title="Confirm Deletion" onClose={() => setShowDeleteDialog(false)}>

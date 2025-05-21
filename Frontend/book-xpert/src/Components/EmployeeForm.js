@@ -12,7 +12,7 @@ const EmployeeForm = ({ employeeToEdit, onSave, employees = [] }) => {
     salary: '',
     gender: '',
     state: '',
-    dateOfBirth: '',
+    dateOfBirth: getTodayDate(),
     age: '',
     doj: getTodayDate(),
   });
